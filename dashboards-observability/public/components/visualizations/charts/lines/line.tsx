@@ -183,6 +183,8 @@ export const Line = ({ visualizations, layout, config }: any) => {
         yref: 'y',
         text: annotationText[annotationIndex],
         showarrow: true,
+        clicktoshow: 'onoff',
+                visible: false
       },
     ],
     showlegend: showLegend,

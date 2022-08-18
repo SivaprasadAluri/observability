@@ -12,8 +12,12 @@ import { ThresholdUnitType } from '../../../event_analytics/explorer/visualizati
 import { hexToRgb } from '../../../event_analytics/utils/utils';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import { FILLOPACITY_DIV_FACTOR } from '../../../../../common/constants/shared';
+import { func } from 'joi';
+
 
 export const Bar = ({ visualizations, layout, config }: any) => {
+  let annotationContextText = React.createContext(null);
+  const [annoteText, setAnnoteText] = useState(null)
   const DEFAULT_LABEL_SIZE = 10;
   const { vis } = visualizations;
   const {
@@ -196,8 +200,12 @@ export const Bar = ({ visualizations, layout, config }: any) => {
         y: yAnnotation,
         xref: 'x',
         yref: 'y',
+        bgcolor: "#FFFFFF",
         text: annotationText[annotationIndex],
         showarrow: true,
+        captureevents: true,
+        // clicktoshow: 'onoff',
+        // visible: false
       },
     ],
   };
@@ -248,27 +256,43 @@ export const Bar = ({ visualizations, layout, config }: any) => {
     newAnnotationText = event.target.value;
   };
 
+
   const handleAddAnnotation = () => {
-    const newAnnotation = [
-      ...annotationText.slice(0, annotationIndex),
-      newAnnotationText,
+    console.log(annotationText, annotationIndex);
+    const newAnnotation = [...annotationText.slice(0, annotationIndex), 
+      newAnnotationText, 
       ...annotationText.slice(annotationIndex + 1),
     ];
     setAnnotationText(newAnnotation);
     setShowInputBox(false);
   };
 
+  const cancelAnnotation = () => {
+    setShowInputBox(false);
+  }
+
   const onBarChartClick = () => {
-    var myPlot = document.getElementById('explorerPlotComponent');
+    const myPlot = document.getElementById('explorerPlotComponent');
     myPlot?.on('plotly_click', function (data) {
       for (var i = 0; i < data.points.length; i++) {
         setXAnnotation('' + data.points[i].x);
         setYAnnotation('' + parseFloat(data.points[i].y.toPrecision(4)));
+        console.log(data.points[i].pointIndex);
         setAnnotationIndex(data.points[i].pointIndex);
+        console.log(annotationText[data.points[i].pointIndex])
       }
       setShowInputBox(true);
     });
   };
+
+
+  
+
+
+  const onAnnotationClick = (data) => {
+      console.log("annotation_click", data.annotation.text);
+      setShowInputBox(true);
+  }
 
   return (
     <Plt
@@ -276,9 +300,11 @@ export const Bar = ({ visualizations, layout, config }: any) => {
       layout={mergedLayout}
       config={mergedConfigs}
       onClickHandler={onBarChartClick}
+      onAnnotationClickHandler={onAnnotationClick}
       showAnnotationInput={showInputBox}
       onChangeHandler={handleChange}
       onAddAnnotationHandler={handleAddAnnotation}
+      onCancelAnnotationHandler={cancelAnnotation}
     />
   );
 };

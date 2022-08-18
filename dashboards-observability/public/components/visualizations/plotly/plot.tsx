@@ -16,11 +16,13 @@ interface PltProps {
   onHoverHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   onUnhoverHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   onClickHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
+  onAnnotationClickHandler?: (event: Readonly<Plotly.PlotMouseEvent>) => void;
   height?: string;
   dispatch?: (props: any) => void;
   showAnnotationInput?: boolean;
   onChangeHandler?: Function;
   onAddAnnotationHandler?: Function;
+  onCancelAnnotationHandler?: Function;
 }
 
 export function Plt(props: PltProps) {
@@ -77,6 +79,7 @@ export function Plt(props: PltProps) {
         showInputBox={props.showAnnotationInput!}
         onTextChange={props.onChangeHandler!}
         onAddAnnotation={props.onAddAnnotationHandler!}
+        onCancelAnnotation={props.onCancelAnnotationHandler!}
       />
       <PlotComponent
         divId="explorerPlotComponent"
@@ -85,6 +88,7 @@ export function Plt(props: PltProps) {
         onHover={props.onHoverHandler}
         onUnhover={props.onUnhoverHandler}
         onClick={props.onClickHandler}
+        onClickAnnotation={props.onAnnotationClickHandler}
         useResizeHandler
         config={finalConfig}
         layout={finalLayout}
