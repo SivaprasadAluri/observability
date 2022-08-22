@@ -46,13 +46,13 @@ export const createMetricsTypeDefinition = (params: any = {}) => ({
             id: 'fontsize',
             name: 'Metric FontSize',
             editor: ConfigLegend,
-            mapTo: 'FontSize',
+            mapTo: 'fontSize',
             schemas: [
               {
                 title: 'Font size',
                 name: 'Font size',
                 component: InputFieldItem,
-                mapTo: 'fontsize',
+                mapTo: 'fontSize',
                 eleType: 'input',
               },
             ]
