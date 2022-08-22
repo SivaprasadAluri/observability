@@ -14,11 +14,15 @@ export const Metrics = ({ visualizations }: any) => {
     metadata: { fields },
   } = visualizations.data.rawVizData;
 	const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
-	console.log("dataConfig====", dataConfig)
-	console.log("layoutConfig===", layoutConfig)
   const dataConfigTab =
     visualizations.data?.rawVizData?.metrics?.dataConfig &&
     visualizations.data.rawVizData.metrics.dataConfig;
+  const dataTitle = dataConfig?.panelOptions?.title;
+
+  const getSelectedColorTheme = (field: any, index: number) =>
+  (dataConfig?.colorTheme?.length > 0 &&
+    dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)
+      ?.color) ||  '#000';
 
 		const calculateAggregateValue = (aggregate: string, label: string) => {
     if (aggregate === 'COUNT') {
@@ -35,25 +39,30 @@ export const Metrics = ({ visualizations }: any) => {
   };
 
   return (
+      
+    
     <div className="metricsContainer">
+    <h4 className="metricTitle"> {dataTitle} </h4>
       <div>
         {dataConfigTab && dataConfigTab.metrics.length > 0 ? (
-          dataConfigTab.metrics.map((metric) => {
+          dataConfigTab.metrics.map((metric, index) => {
             return (
+              
               <EuiFlexGroup
                 justifyContent="spaceAround"
                 alignItems="center"
                 className="metricValueContainer"
+                style={{color: getSelectedColorTheme(metric.label, index)}}
               >
                 {metric.aggregation.length !== 0 &&
                   metric.label !== '' &&
                   metric.aggregation.map((aggFunction) => (
                     <EuiFlexItem grow={false} className="metricValue">
-                      <div className="aggregateValue">
+                      <div className="aggregateValue" style={{fontSize: dataConfig?.FontSize?.fontsize+'px'}}>
                         {calculateAggregateValue(aggFunction.label, metric.label)}
                       </div>
-                      <div className="aggregateLabel">
-                        {metric.custom_label !== '' ? metric.custom_label : metric.label}
+                      <div className="aggregateLabel" style={{fontSize: dataConfig?.FontSize?.fontsize / 2+'px'}}>
+                       {aggFunction.label} {metric.custom_label !== '' ? metric.custom_label : metric.label}
                       </div>
                     </EuiFlexItem>
                   ))}
@@ -61,7 +70,7 @@ export const Metrics = ({ visualizations }: any) => {
             );
           })
         ) : (
-          <EmptyPlaceholder icon={visualizations?.vis?.iconType} />
+          <EmptyPlaceholder icon={visualizations?.vis?.icontype} />
         )}
       </div>
     </div>
