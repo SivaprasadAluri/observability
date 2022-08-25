@@ -283,3 +283,14 @@ export interface ConfigList {
   breakdowns?: ConfigListEntry[] | HistogramConfigList[];
   span?: DimensionSpan;
 }
+
+export interface MetricListEntry {
+  label: string;
+  aggregation: string[];
+  custom_label: string;
+  name: string;
+}
+
+export interface MetricList {
+  metrics?: MetricListEntry[];
+}

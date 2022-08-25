@@ -136,12 +136,12 @@ export const HEADER_HEIGHT = 35;
 
 // gauge chart default parameters
 export interface DefaultGaugeChartParametersProps {
-  GaugeTitleSize: number,
-  DisplayDefaultGauges: number,
-  OrientationDefault: string,
-  TickLength: number, 
-  LegendPlacement: string,
-  ThresholdsMaxLimit: number
+  GaugeTitleSize: number;
+  DisplayDefaultGauges: number;
+  OrientationDefault: string;
+  TickLength: number;
+  LegendPlacement: string;
+  ThresholdsMaxLimit: number;
 };
 
 export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
@@ -152,3 +152,22 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   LegendPlacement: 'center',
   ThresholdsMaxLimit: 1
 }
+
+export const METRICS_AGGREGATION_OPTIONS = [
+  {
+    label: 'COUNT',
+  },
+  {
+    label: 'SUM',
+  },
+  {
+    label: 'AVERAGE',
+  },
+  {
+    label: 'MAX',
+  },
+  {
+    label: 'MIN',
+  },
+];
+

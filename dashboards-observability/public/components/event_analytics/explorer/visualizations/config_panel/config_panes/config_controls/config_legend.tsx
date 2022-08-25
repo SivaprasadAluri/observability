@@ -4,7 +4,7 @@
  */
 
 import React, { Fragment, useCallback, useMemo } from 'react';
-import { EuiAccordion, EuiSpacer } from '@elastic/eui';
+import { EuiAccordion, EuiSpacer, htmlIdGenerator } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 
@@ -50,7 +50,7 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
       }
       return (
         <Fragment key={`viz-series-${index}`}>
-          <DimensionComponent  {...params} />
+          <DimensionComponent {...params} />
           <EuiSpacer size="s" />
         </Fragment>
       );
@@ -58,7 +58,12 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
   }, [schemas, vizState, handleConfigurationChange]);
 
   return (
-    <EuiAccordion initialIsOpen id="configPanel__legend" buttonContent="Legend" paddingSize="s">
+    <EuiAccordion
+      initialIsOpen
+      id={htmlIdGenerator('configPanel__legend')()}
+      buttonContent="Legend"
+      paddingSize="s"
+    >
       {dimensions}
     </EuiAccordion>
   );
