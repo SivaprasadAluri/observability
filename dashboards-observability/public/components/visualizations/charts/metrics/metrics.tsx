@@ -28,16 +28,17 @@ export const Metrics = ({ visualizations }: any) => {
   const fontSize = dataConfig?.fontSize?.fontSize;
 
   const calculateAggregateValue = (aggregate: string, label: string) => {
-    if (aggregate === 'COUNT') {
-      return data[label].length;
-    } else if (aggregate === 'AVERAGE') {
-      return meanBy(data[label]).toFixed(2);
-    } else if (aggregate === 'MAX') {
-      return (max(data[label]) as number).toFixed(2);
-    } else if (aggregate === 'MIN') {
-      return (min(data[label]) as number).toFixed(2);
-    } else if (aggregate === 'SUM') {
-      return sum(data[label]).toFixed(2);
+    switch (aggregate) {
+      case 'COUNT':
+        return data[label].length;
+      case 'AVERAGE':
+        return meanBy(data[label]).toFixed(2);
+      case 'MAX':
+        return (max(data[label]) as number).toFixed(2);
+      case 'MIN':
+        return (min(data[label]) as number).toFixed(2);
+      case 'SUM':
+        return sum(data[label]).toFixed(2);
     }
   };
 

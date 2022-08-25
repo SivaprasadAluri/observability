@@ -4,7 +4,7 @@
  */
 
 import React, { Fragment, useCallback, useMemo } from 'react';
-import { EuiAccordion, EuiSpacer } from '@elastic/eui';
+import { EuiAccordion, EuiSpacer, htmlIdGenerator } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 
@@ -65,7 +65,7 @@ export const ConfigLegend = ({
   return (
     <EuiAccordion
       initialIsOpen
-      id="configPanel__legend"
+      id={htmlIdGenerator('configPanel__legend')()}
       buttonContent={sectionName}
       paddingSize="s"
     >
