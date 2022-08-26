@@ -132,7 +132,7 @@ const getUserConfigs = (userSelectedConfigs: object, vizFields: IField[], visNam
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
             valueOptions: {
-              dimensions: [initialConfigEntry, initialConfigEntry],
+              dimensions: [],
               metrics: [initialConfigEntry],
             },
           },

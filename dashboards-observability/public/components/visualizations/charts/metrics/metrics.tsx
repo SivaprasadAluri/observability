@@ -9,30 +9,24 @@ import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizatio
 import './metrics.scss';
 
 export const Metrics = ({ visualizations }: any) => {
-  console.log(visualizations);
   const {
     data,
     metadata: { fields },
   } = visualizations.data.rawVizData;
   const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
-  //   const dataConfigTab =
-  //     visualizations.data?.rawVizData?.metrics?.dataConfig &&
-  //     visualizations.data.rawVizData.metrics.dataConfig;
+  const dataConfigTab =
+    visualizations.data?.rawVizData?.metrics?.dataConfig &&
+    visualizations.data.rawVizData.metrics.dataConfig;
 
-  const dataConfigTab = visualizations.data?.userConfigs?.dataConfig?.valueOptions;
-
-  console.log('1111', dataConfigTab);
   const dataTitle = dataConfig?.panelOptions?.title;
 
   const metricLabel = dataConfigTab?.metrics?.filter((value) => value.label !== '');
-
-  console.log('2222', metricLabel);
 
   const getSelectedColorTheme = (field: any, index: number) =>
     (dataConfig?.colorTheme?.length > 0 &&
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     '#000';
-  const fontSize = dataConfig?.fontSize?.fontSize;
+  const fontSize = dataConfig?.FontSize?.fontsize;
 
   const calculateAggregateValue = (aggregate: string, label: string) => {
     switch (aggregate) {
@@ -53,7 +47,6 @@ export const Metrics = ({ visualizations }: any) => {
     <div className="metricsContainer">
       <h4 className="metricTitle"> {dataTitle} </h4>
       <div>
-        {console.log('inside', dataConfigTab?.metrics)}
         {dataConfigTab && dataConfigTab.metrics.length > 0 ? (
           dataConfigTab.metrics.map((metric, index: number) => {
             return (
