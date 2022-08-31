@@ -26,7 +26,7 @@ export const Metrics = ({ visualizations }: any) => {
     (dataConfig?.colorTheme?.length > 0 &&
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     '#000';
-  const fontSize = dataConfig?.fontSize?.fontSize;
+  const fontSize = dataConfig?.fontSize?.fontSize ? dataConfig?.fontSize?.fontSize : 48;
 
   const calculateAggregateValue = (aggregate: string, label: string) => {
     switch (aggregate) {

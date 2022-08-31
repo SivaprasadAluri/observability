@@ -8,7 +8,11 @@ import { getPlotlyCategory, getPlotlySharedConfigs } from '../shared/shared_conf
 import { LensIconChartDatatable } from '../../assets/chart_datatable';
 import { VizDataPanel } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/default_vis_editor';
 import { PLOTLY_COLOR } from '../../../../../common/constants/shared';
-import { ConfigColorTheme, ConfigLegend, InputFieldItem } from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
+import {
+  ConfigColorTheme,
+  ConfigLegend,
+  InputFieldItem,
+} from '../../../event_analytics/explorer/visualizations/config_panel/config_panes/config_controls';
 
 const sharedConfigs = getPlotlySharedConfigs();
 const VIS_CATEGORY = getPlotlyCategory();
@@ -55,11 +59,10 @@ export const createMetricsTypeDefinition = (params: any = {}) => ({
                 mapTo: 'fontSize',
                 eleType: 'input',
               },
-            ]
+            ],
           },
         ],
       },
-      
     ],
   },
   visconfig: {
