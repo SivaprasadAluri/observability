@@ -26,7 +26,7 @@ export const Metrics = ({ visualizations }: any) => {
     (dataConfig?.colorTheme?.length > 0 &&
       dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     '#000';
-  const fontSize = dataConfig?.fontSize?.fontSize ? dataConfig?.fontSize?.fontSize : 48;
+  const fontSize = dataConfig?.fontSize?.fontSize ? dataConfig.fontSize.fontSize : 48;
 
   const calculateAggregateValue = (aggregate: string, label: string) => {
     switch (aggregate) {
@@ -57,7 +57,8 @@ export const Metrics = ({ visualizations }: any) => {
                 style={{ color: getSelectedColorTheme(metric.label, index) }}
                 key={index}
               >
-                {metric.aggregation.length !== 0 && { metricLabel } &&
+                {metric.aggregation.length !== 0 &&
+                  metricLabel &&
                   metric.aggregation.map((aggFunction, i: number) => (
                     <EuiFlexItem grow={false} className="metricValue" key={i}>
                       <div className="aggregateValue" style={{ fontSize: fontSize + 'px' }}>

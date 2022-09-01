@@ -64,45 +64,38 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
   ]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
-    let list = { ...configList };
-    let listItem = { ...list[name][index] };
-    listItem = {
-      ...listItem,
-      [field]: value,
-    };
+    const listItem = { ...configList[name][index], [field]: value };
+
     const updatedList = {
-      ...list,
+      ...configList,
       [name]: [
-        ...list[name].slice(0, index),
+        ...configList[name].slice(0, index),
         listItem,
-        ...list[name].slice(index + 1, list[name].length),
+        ...configList[name].slice(index + 1, configList[name].length),
       ],
     };
     setConfigList(updatedList);
   };
 
   const updateListWithAgg = (value: string[], index: number, name: string, field: string) => {
-    const list = { ...configList };
-    const listItem = { ...list[name][index] };
     const updatedList = {
-      ...list,
+      ...configList,
       [name]: [
-        ...list[name].slice(0, index),
+        ...configList[name].slice(0, index),
         {
-          ...listItem,
-          [field]: value.map((val) => val),
+          ...configList[name][index],
+          [field]: [...value],
         },
-        ...list[name].slice(index + 1, list[name].length),
+        ...configList[name].slice(index + 1, configList[name].length),
       ],
     };
     setConfigList(updatedList);
   };
 
   const handleServiceRemove = (index: number, name: string) => {
-    const list = { ...configList };
-    const arr = [...list[name]];
+    const arr = [...configList[name]];
     arr.splice(index, 1);
-    const updatedList = { ...list, [name]: arr };
+    const updatedList = { ...configList, [name]: arr };
     setConfigList(updatedList);
   };
 
@@ -128,19 +121,21 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
   };
 
   const getOptionsAvailable = (sectionName: string) => {
-    let selectedFields = {};
+    const selectedFields = {};
     for (const key in configList) {
       configList[key] && configList[key].forEach((field) => (selectedFields[field.label] = true));
     }
-    const unselectedFields = fieldOptionList.filter((field) => !selectedFields[field.label]);
-    return unselectedFields.filter((field) => numericalTypes.includes(field.type));
+
+    return fieldOptionList
+      .filter((field) => !selectedFields[field.label])
+      .filter((field) => numericalTypes.includes(field.type));
   };
 
   const getCommonUI = (lists, sectionName: string) =>
     lists &&
     lists.map((singleField, index: number) => (
-      <>
-        <div key={index} className="services">
+      <React.Fragment key={index}>
+        <div className="services">
           <div className="first-division">
             <EuiPanel color="subdued" style={{ padding: '0px' }}>
               <EuiFormRow
@@ -209,11 +204,11 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
           </div>
         </div>
         <EuiSpacer size="s" />
-      </>
+      </React.Fragment>
     ));
 
   return (
-    <>
+    <React.Fragment>
       <EuiTitle size="xxs">
         <h3>Data Configurations</h3>
       </EuiTitle>
@@ -233,6 +228,6 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
           Update chart
         </EuiButton>
       </EuiFlexItem>
-    </>
+    </React.Fragment>
   );
 };
