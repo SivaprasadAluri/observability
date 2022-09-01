@@ -19,13 +19,6 @@ export const InputFieldItem: React.FC<InputFieldProps> = ({
 }) => {
   const [fieldValue, setFieldValue] = useState<number | string>(numValue);
 
-  useEffect(() => {
-    setFieldValue('');
-    if (numValue !== undefined || numValue !== '') {
-      setFieldValue(numValue);
-    }
-  }, [numValue]);
-
   return (
     <>
       <EuiTitle size="xxs">

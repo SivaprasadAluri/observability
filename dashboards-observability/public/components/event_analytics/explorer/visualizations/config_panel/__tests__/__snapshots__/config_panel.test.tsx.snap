@@ -13306,8 +13306,8 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                   />
                                                 </EuiSpacer>
                                                 <InputFieldItem
+                                                  currentValue=""
                                                   handleInputChange={[Function]}
-                                                  numValue=""
                                                   title="Label size"
                                                 >
                                                   <EuiTitle
@@ -13334,7 +13334,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                     onBlur={[Function]}
                                                     onChange={[Function]}
                                                     placeholder="auto"
-                                                    value=""
                                                   >
                                                     <EuiFormControlLayout
                                                       compressed={false}
@@ -13358,7 +13357,6 @@ exports[`Config panel component Renders config panel with visualization data 1`]
                                                               onChange={[Function]}
                                                               placeholder="auto"
                                                               type="number"
-                                                              value=""
                                                             />
                                                           </EuiValidatableControl>
                                                           <EuiFormControlLayoutIcons
