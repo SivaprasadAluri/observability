@@ -8,7 +8,12 @@ import { EuiAccordion, EuiSpacer, htmlIdGenerator } from '@elastic/eui';
 import { ButtonGroupItem } from './config_button_group';
 import { IConfigPanelOptionSection } from '../../../../../../../../common/types/explorer';
 
-export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => {
+export const ConfigLegend = ({
+  schemas,
+  vizState,
+  handleConfigChange,
+  sectionName = 'Legend',
+}: any) => {
   const handleConfigurationChange = useCallback(
     (stateFiledName) => {
       return (changes) => {
@@ -61,7 +66,7 @@ export const ConfigLegend = ({ schemas, vizState, handleConfigChange }: any) => 
     <EuiAccordion
       initialIsOpen
       id={htmlIdGenerator('configPanel__legend')()}
-      buttonContent="Legend"
+      buttonContent={sectionName}
       paddingSize="s"
     >
       {dimensions}
