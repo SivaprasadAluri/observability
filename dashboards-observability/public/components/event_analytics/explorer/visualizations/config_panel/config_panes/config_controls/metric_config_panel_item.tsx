@@ -126,9 +126,9 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
       configList[key] && configList[key].forEach((field) => (selectedFields[field.label] = true));
     }
 
-    return fieldOptionList
-      .filter((field) => !selectedFields[field.label])
-      .filter((field) => numericalTypes.includes(field.type));
+    return fieldOptionList.filter(
+      (field) => !selectedFields[field.label] && numericalTypes.includes(field.type)
+    );
   };
 
   const getCommonUI = (lists, sectionName: string) =>
@@ -153,7 +153,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
                 }
               >
                 <EuiComboBox
-                  aria-label="Accessible screen reader label"
+                  aria-label="Selects a aggregation Field"
                   placeholder="Select a aggregation"
                   singleSelection={false}
                   options={METRICS_AGGREGATION_OPTIONS}
@@ -167,7 +167,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
               </EuiFormRow>
               <EuiFormRow label="Field">
                 <EuiComboBox
-                  aria-label="Accessible screen reader label"
+                  aria-label="Selects a metric field"
                   placeholder="Select a field"
                   singleSelection={{ asPlainText: true }}
                   options={getOptionsAvailable(sectionName)}
@@ -183,7 +183,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
                   placeholder="Custom label"
                   value={singleField.custom_label}
                   onChange={(e) => updateList(e.target.value, index, sectionName, 'custom_label')}
-                  aria-label="Use aria labels when no actual label is in use"
+                  aria-label="Adds a Custom Label for metrics field"
                 />
               </EuiFormRow>
 
