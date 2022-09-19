@@ -248,3 +248,21 @@ export enum ConfigChartOptionsEnum {
 
 export const CUSTOM_LABEL = 'customLabel';
 export const BREAKDOWNS = 'breakdowns';
+
+export const METRICS_AGGREGATION_OPTIONS = [
+  {
+    label: 'COUNT',
+  },
+  {
+    label: 'SUM',
+  },
+  {
+    label: 'AVERAGE',
+  },
+  {
+    label: 'MAX',
+  },
+  {
+    label: 'MIN',
+  },
+];

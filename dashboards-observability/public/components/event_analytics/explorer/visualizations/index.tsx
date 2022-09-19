@@ -24,7 +24,7 @@ import { DataConfigPanelItem } from './config_panel/config_panes/config_controls
 import { PPL_STATS_REGEX, VIS_CHART_TYPES } from '../../../../../common/constants/shared';
 import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 import { LogsViewConfigPanelItem } from './config_panel/config_panes/config_controls/logs_view_config_panel_item';
-
+import { MetricConfigPanelItem } from './config_panel/config_panes/config_controls/metric_config_panel_item';
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
@@ -62,6 +62,10 @@ export const ExplorerVisualizations = ({
     label: field.name,
   }));
 
+  const metricFieldOptionList = fields.map((field) => {
+    return { ...field, label: field.name };
+  });
+
   const renderDataConfigContainer = () => {
     switch (curVisId) {
       case VIS_CHART_TYPES.TreeMap:
@@ -76,6 +80,14 @@ export const ExplorerVisualizations = ({
           <LogsViewConfigPanelItem
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
+          />
+        );
+      case visChartTypes.Metrics:
+        return (
+          <MetricConfigPanelItem
+            fieldOptionList={metricFieldOptionList}
+            visualizations={visualizations}
+            tabID={tabId}
           />
         );
       default:

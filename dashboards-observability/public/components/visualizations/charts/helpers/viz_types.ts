@@ -46,6 +46,13 @@ const initialSeriesEntry = {
   aggregation: 'count',
 };
 
+const initialMetricsChartEntry = {
+  alias: '',
+  label: '',
+  name: '',
+  aggregation: [],
+};
+
 const initialEntryTreemap = { label: '', name: '' };
 
 const getDefaultXYAxisLabels = (vizFields: IField[], visName: string) => {
@@ -221,6 +228,16 @@ const getUserConfigs = (
           dataConfig: {
             ...userSelectedConfigs?.dataConfig,
             ...defaultUserConfigs(query, visName),
+          },
+        };
+        break;
+      case visChartTypes.Metrics:
+        configOfUser = {
+          ...userSelectedConfigs,
+          dataConfig: {
+            ...userSelectedConfigs?.dataConfig,
+            dimensions: [],
+            metrics: [initialMetricsChartEntry],
           },
         };
         break;

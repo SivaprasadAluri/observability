@@ -446,9 +446,13 @@ export const DataConfigPanelItem = ({
       <EuiSpacer size="s" />
       {visualizations.vis.name !== VIS_CHART_TYPES.Histogram ? (
         <>
-          {DataConfigPanelFields(getRenderFieldsObj(AGGREGATIONS))}
-          <EuiSpacer size="s" />
-          {DataConfigPanelFields(getRenderFieldsObj(GROUPBY))}
+          {visualizations.vis.name !== VIS_CHART_TYPES.Metrics && (
+            <>
+              {DataConfigPanelFields(getRenderFieldsObj(AGGREGATIONS))}
+              <EuiSpacer size="s" />
+              {DataConfigPanelFields(getRenderFieldsObj(GROUPBY))}
+            </>
+          )}
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
             <h3>Date Histogram</h3>
