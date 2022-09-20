@@ -74,7 +74,7 @@ export const ConfigBarChartStyles = ({
           if (schema.eleType === 'input') {
             params = {
               title: schema.name,
-              currentValue: vizState[schema.mapTo] || '',
+              numValue: vizState[schema.mapTo] || '',
               handleInputChange: handleConfigurationChange(schema.mapTo),
               vizState,
               ...schema.props,
