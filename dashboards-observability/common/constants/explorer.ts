@@ -120,7 +120,16 @@ export const AGGREGATION_OPTIONS = [
 ];
 
 // numeric fields type for metrics
-export const numericalTypes = ['float', 'double', 'bigint', 'long', 'octet', 'short', 'byte', 'integer'];
+export const numericalTypes = [
+  'float',
+  'double',
+  'bigint',
+  'long',
+  'octet',
+  'short',
+  'byte',
+  'integer',
+];
 // Data table constants
 export const GRID_HEADER_COLUMN_MAX_WIDTH = '150px';
 export const GRID_PAGE_RANGE_DISPLAY = 5;
@@ -136,12 +145,12 @@ export const HEADER_HEIGHT = 35;
 
 // gauge chart default parameters
 export interface DefaultGaugeChartParametersProps {
-  GaugeTitleSize: number,
-  DisplayDefaultGauges: number,
-  OrientationDefault: string,
-  TickLength: number, 
-  LegendPlacement: string,
-  ThresholdsMaxLimit: number
+  GaugeTitleSize: number;
+  DisplayDefaultGauges: number;
+  OrientationDefault: string;
+  TickLength: number;
+  LegendPlacement: string;
+  ThresholdsMaxLimit: number;
 };
 
 export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
@@ -152,3 +161,22 @@ export const DefaultGaugeChartParameters: DefaultGaugeChartParametersProps = {
   LegendPlacement: 'center',
   ThresholdsMaxLimit: 1
 }
+
+export const METRICS_AGGREGATION_OPTIONS = [
+  {
+    label: 'COUNT',
+  },
+  {
+    label: 'SUM',
+  },
+  {
+    label: 'AVERAGE',
+  },
+  {
+    label: 'MAX',
+  },
+  {
+    label: 'MIN',
+  },
+];
+

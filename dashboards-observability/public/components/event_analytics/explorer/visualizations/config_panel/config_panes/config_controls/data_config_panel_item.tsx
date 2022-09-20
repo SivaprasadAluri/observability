@@ -448,17 +448,21 @@ export const DataConfigPanelItem = ({ fieldOptionList, visualizations }: any) =>
       <EuiSpacer size="s" />
       {visualizations.vis.name !== visChartTypes.Histogram ? (
         <>
-          <EuiTitle size="xxs">
-            <h3>Series</h3>
-          </EuiTitle>
-          <EuiSpacer size="s" />
-          {getCommonUI(configList.metrics, 'metrics')}
-          <EuiSpacer size="m" />
-          <EuiTitle size="xxs">
-            <h3>Dimensions</h3>
-          </EuiTitle>
-          <EuiSpacer size="s" />
-          {getCommonUI(configList.dimensions, 'dimensions')}
+          {visualizations.vis.name !== visChartTypes.Metrics && (
+            <>
+              <EuiTitle size="xxs">
+                <h3>Series</h3>
+              </EuiTitle>
+              <EuiSpacer size="s" />
+              {getCommonUI(configList.metrics, 'metrics')}
+              <EuiSpacer size="m" />
+              <EuiTitle size="xxs">
+                <h3>Dimensions</h3>
+              </EuiTitle>
+              <EuiSpacer size="s" />
+              {getCommonUI(configList.dimensions, 'dimensions')}
+            </>
+          )}
           <EuiSpacer size="s" />
           <EuiTitle size="xxs">
             <h3>Date Histogram</h3>

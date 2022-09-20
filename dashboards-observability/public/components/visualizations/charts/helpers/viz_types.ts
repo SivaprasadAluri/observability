@@ -222,6 +222,18 @@ const getUserConfigs = (
           },
         };
         break;
+      case visChartTypes.Metrics:
+        configOfUser = {
+          ...userSelectedConfigs,
+          dataConfig: {
+            ...userSelectedConfigs?.dataConfig,
+            valueOptions: {
+              dimensions: [],
+              metrics: [initialConfigEntry],
+            },
+          },
+        };
+        break;
       default:
         configOfUser = {
           ...userSelectedConfigs,

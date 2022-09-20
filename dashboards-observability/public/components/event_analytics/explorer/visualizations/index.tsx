@@ -19,6 +19,8 @@ import { TabContext } from '../../hooks';
 import { PPL_STATS_REGEX, visChartTypes } from '../../../../../common/constants/shared';
 import { TreemapConfigPanelItem } from './config_panel/config_panes/config_controls/treemap_config_panel_item';
 import { LogsViewConfigPanelItem } from './config_panel/config_panes/config_controls/logs_view_config_panel_item';
+import { MetricConfigPanelItem } from './config_panel/config_panes/config_controls/metric_config_panel_item';
+
 interface IExplorerVisualizationsProps {
   query: IQuery;
   curVisId: string;
@@ -70,6 +72,14 @@ export const ExplorerVisualizations = ({
       case visChartTypes.LogsView:
         return (
           <LogsViewConfigPanelItem
+            fieldOptionList={fieldOptionList}
+            visualizations={visualizations}
+            tabID={tabId}
+          />
+        );
+      case visChartTypes.Metrics:
+        return (
+          <MetricConfigPanelItem
             fieldOptionList={fieldOptionList}
             visualizations={visualizations}
             tabID={tabId}
