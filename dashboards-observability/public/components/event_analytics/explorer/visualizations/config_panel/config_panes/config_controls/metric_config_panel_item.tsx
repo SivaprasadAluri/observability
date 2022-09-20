@@ -29,7 +29,6 @@ import { TabContext } from '../../../../../hooks';
 export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) => {
   const dispatch = useDispatch();
   const { tabId } = useContext<any>(TabContext);
-  // const explorerVisualizations = useSelector(selectExplorerVisualization)[tabId];
   const { data } = visualizations;
   const { userConfigs } = data;
 
@@ -120,8 +119,10 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
 
   const getOptionsAvailable = () => {
     const selectedFields = {};
-    for (const key in configList.metrics) {
-      configList[key] && configList[key].forEach((field) => (selectedFields[field.label] = true));
+    for (const key in configList) {
+      if (key === 'metrics') {
+        configList[key] && configList[key].forEach((field) => (selectedFields[field.label] = true));
+      }
     }
 
     return fieldOptionList.filter(
