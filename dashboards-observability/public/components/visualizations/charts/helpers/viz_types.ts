@@ -231,14 +231,16 @@ const getUserConfigs = (
           },
         };
         break;
-      case visChartTypes.Metrics:
+      case VIS_CHART_TYPES.Metrics:
         configOfUser = {
           ...userSelectedConfigs,
-          dataConfig: {
-            ...userSelectedConfigs?.dataConfig,
-            dimensions: [],
-            metrics: [initialMetricsChartEntry],
-          },
+          dataConfig:
+            userSelectedConfigs?.dataConfig !== undefined
+              ? userSelectedConfigs?.dataConfig
+              : {
+                  [GROUPBY]: [],
+                  [AGGREGATIONS]: [initialMetricsChartEntry],
+                },
         };
         break;
       default:

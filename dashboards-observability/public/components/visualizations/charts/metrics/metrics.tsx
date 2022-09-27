@@ -42,8 +42,8 @@ export const Metrics = ({ visualizations }: any) => {
     <div className="metricsContainer">
       <h4 className="metricTitle"> {dataTitle} </h4>
       <div>
-        {dataConfig && dataConfig.metrics.length > 0 ? (
-          dataConfig.metrics.map((metric, index: number) => {
+        {dataConfig && dataConfig.series.length > 0 ? (
+          dataConfig.series.map((metric, index: number) => {
             return (
               <EuiFlexGroup
                 justifyContent="spaceAround"

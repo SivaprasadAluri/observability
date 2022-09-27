@@ -19,10 +19,12 @@ import {
 import { useDispatch } from 'react-redux';
 import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
 import {
+  AGGREGATIONS,
+  GROUPBY,
   METRICS_AGGREGATION_OPTIONS,
   numericalTypes,
 } from '../../../../../../../../common/constants/explorer';
-import { visChartTypes } from '../../../../../../../../common/constants/shared';
+import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import { MetricList, MetricListEntry } from '../../../../../../../../common/types/explorer';
 import { TabContext } from '../../../../../hooks';
 
@@ -42,8 +44,8 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
   };
 
   const [configList, setConfigList] = useState<MetricList>({
-    metrics: [initialConfigEntry],
-    dimensions: [],
+    [AGGREGATIONS]: [initialConfigEntry],
+    [GROUPBY]: [],
   });
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
         ...userConfigs?.dataConfig,
       });
     }
-  }, [userConfigs?.dataConfig, visualizations.vis.name]);
+  }, [userConfigs, userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     const listItem = {
@@ -108,9 +110,10 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
         tabId,
         vizId: visualizations.vis.name,
         data: {
+          ...userConfigs,
           dataConfig: {
-            metrics: configList.metrics,
-            dimensions: configList.dimensions,
+            [GROUPBY]: configList[GROUPBY],
+            [AGGREGATIONS]: configList[AGGREGATIONS]!,
           },
         },
       })
@@ -120,11 +123,10 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
   const getOptionsAvailable = () => {
     const selectedFields = {};
     for (const key in configList) {
-      if (key === 'metrics') {
+      if (key === 'series') {
         configList[key] && configList[key].forEach((field) => (selectedFields[field.label] = true));
       }
     }
-
     return fieldOptionList.filter(
       (field) => !selectedFields[field.label] && numericalTypes.includes(field.type)
     );
@@ -187,7 +189,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
               </EuiFormRow>
 
               <EuiSpacer size="s" />
-              {visualizations.vis.name !== visChartTypes.HeatMap && lists.length - 1 === index && (
+              {visualizations.vis.name !== VIS_CHART_TYPES.HeatMap && lists.length - 1 === index && (
                 <EuiFlexItem grow>
                   <EuiButton
                     fullWidth
@@ -214,9 +216,9 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
       <EuiSpacer size="s" />
       <EuiSpacer size="s" />
       <EuiTitle size="xxs">
-        <h3>Metrics</h3>
+        <h3>Series</h3>
       </EuiTitle>
-      {getCommonUI(configList.metrics, 'metrics')}
+      {getCommonUI(configList.series, 'series')}
       <EuiFlexItem grow={false}>
         <EuiButton
           data-test-subj="visualizeEditorRenderButton"

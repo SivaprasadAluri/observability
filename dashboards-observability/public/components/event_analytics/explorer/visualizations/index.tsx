@@ -82,7 +82,7 @@ export const ExplorerVisualizations = ({
             visualizations={visualizations}
           />
         );
-      case visChartTypes.Metrics:
+      case VIS_CHART_TYPES.Metrics:
         return (
           <MetricConfigPanelItem
             fieldOptionList={metricFieldOptionList}

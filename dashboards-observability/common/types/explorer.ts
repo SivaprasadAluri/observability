@@ -369,6 +369,6 @@ export interface MetricListEntry {
 }
 
 export interface MetricList {
-  metrics?: MetricListEntry[];
-  dimensions: [];
+  [AGGREGATIONS]?: MetricListEntry[];
+  [GROUPBY]: [];
 }
