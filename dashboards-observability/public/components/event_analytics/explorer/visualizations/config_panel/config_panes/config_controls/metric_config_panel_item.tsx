@@ -22,7 +22,7 @@ import {
   AGGREGATIONS,
   GROUPBY,
   METRICS_AGGREGATION_OPTIONS,
-  numericalTypes,
+  NUMERICAL_TYPES,
 } from '../../../../../../../../common/constants/explorer';
 import { VIS_CHART_TYPES } from '../../../../../../../../common/constants/shared';
 import { MetricList, MetricListEntry } from '../../../../../../../../common/types/explorer';
@@ -54,7 +54,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
         ...userConfigs?.dataConfig,
       });
     }
-  }, [userConfigs, userConfigs?.dataConfig, visualizations.vis.name]);
+  }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (value: string, index: number, name: string, field: string) => {
     const listItem = {
@@ -128,7 +128,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
       }
     }
     return fieldOptionList.filter(
-      (field) => !selectedFields[field.label] && numericalTypes.includes(field.type)
+      (field) => !selectedFields[field.label] && NUMERICAL_TYPES.includes(field.type)
     );
   };
 
