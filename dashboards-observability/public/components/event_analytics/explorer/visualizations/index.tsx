@@ -57,12 +57,13 @@ export const ExplorerVisualizations = ({
   queryManager,
 }: IExplorerVisualizationsProps) => {
   const { vis } = visualizations;
+  const fields = visualizations.data.rawVizData?.metadata?.fields;
   const fieldOptionList = explorerFields.availableFields.map((field) => ({
     ...field,
     label: field.name,
   }));
 
-  const metricFieldOptionList = fields.map((field) => {
+  const metricFieldOptionList = fields?.map((field) => {
     return { ...field, label: field.name };
   });
 
@@ -87,7 +88,6 @@ export const ExplorerVisualizations = ({
           <MetricConfigPanelItem
             fieldOptionList={metricFieldOptionList}
             visualizations={visualizations}
-            tabID={tabId}
           />
         );
       default:
