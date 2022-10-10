@@ -24,14 +24,27 @@ const renderHeatMapChart = () => {
 };
 
 const renderDataForHeateMap = () => {
+  cy.get('.euiButtonIcon.euiButtonIcon--primary.euiButtonIcon--empty.euiButtonIcon--xSmall')
+    .eq(0)
+    .click();
   cy.get('[data-test-subj="comboBoxInput"]').eq(0).click();
   cy.get('.euiComboBoxOption__content').contains('avg').click();
   cy.get('[data-test-subj="comboBoxInput"]').eq(1).click();
   cy.get('.euiComboBoxOption__content').contains('bytes').click();
-  cy.get('[data-test-subj="comboBoxInput"]').eq(2).click();
+  cy.get('.first-division .euiFlexItem.euiFlexItem--flexGrowZero').click();
+
+  cy.get('.euiButtonIcon.euiButtonIcon--primary.euiButtonIcon--empty.euiButtonIcon--xSmall')
+    .eq(0)
+    .click();
+  cy.get('[data-test-subj="comboBoxInput"]').eq(0).click();
   cy.get('.euiComboBoxOption__content').contains('host').click();
-  cy.get('[data-test-subj="comboBoxInput"]').eq(3).click();
+  cy.get('.first-division .euiFlexItem.euiFlexItem--flexGrowZero').click();
+  cy.get('.euiButtonIcon.euiButtonIcon--primary.euiButtonIcon--empty.euiButtonIcon--xSmall')
+    .eq(0)
+    .click();
+  cy.get('[data-test-subj="comboBoxInput"]').eq(0).click();
   cy.get('.euiComboBoxOption__content').contains('bytes').click();
+  cy.get('.first-division .euiFlexItem.euiFlexItem--flexGrowZero').click();
   cy.get('.euiFieldNumber').eq(0).type('1');
   cy.get('.euiButton__text').contains('Update chart').click();
   cy.get('.plot-container.plotly').should('exist');
@@ -50,8 +63,8 @@ describe('Render Heatmap and verify default behaviour ', () => {
   it('Render Heatmap and verify data configuration panel and chart panel', () => {
     cy.get('.euiPanel.euiPanel--paddingSmall').should('have.length', numberOfWindow);
     cy.get('.euiTitle.euiTitle--xxsmall').contains('Configuration').should('exist');
-    cy.get('.euiTitle.euiTitle--xxsmall').contains('Dimensions').should('exist');
-    cy.get('.euiTitle.euiTitle--xxsmall').contains('Series').should('exist');
+    cy.get('.euiTitle.euiTitle--xxsmall.panel_title').contains('series').should('exist');
+    cy.get('.euiTitle.euiTitle--xxsmall.panel_title').contains('dimensions').should('exist');
     cy.get('.euiIEFlexWrapFix').contains('Panel options').should('exist');
     cy.get('.euiIEFlexWrapFix').contains('Chart styles').should('exist');
     cy.get('.euiForm.visEditorSidebar__form .euiIEFlexWrapFix')
