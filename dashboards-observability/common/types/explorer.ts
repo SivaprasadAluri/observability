@@ -364,7 +364,7 @@ export interface DataConfigPanelFieldProps {
 export interface MetricListEntry {
   label: string;
   aggregation: string[];
-  alias: string;
+  [CUSTOM_LABEL]: string;
   name: string;
 }
 

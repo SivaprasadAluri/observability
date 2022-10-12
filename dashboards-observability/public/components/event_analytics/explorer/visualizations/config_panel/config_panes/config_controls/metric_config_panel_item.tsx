@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 import { change as changeVizConfig } from '../../../../../redux/slices/viualization_config_slice';
 import {
   AGGREGATIONS,
+  CUSTOM_LABEL,
   GROUPBY,
   METRICS_AGGREGATION_OPTIONS,
   NUMERICAL_TYPES,
@@ -37,7 +38,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
   const { data: vizData = {}, metadata: { fields = [] } = {} } = data?.rawVizData;
 
   const initialConfigEntry: MetricListEntry = {
-    alias: '',
+    [CUSTOM_LABEL]: '',
     label: '',
     name: '',
     aggregation: [],
@@ -59,7 +60,7 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
   const updateList = (value: string, index: number, name: string, field: string) => {
     const listItem = {
       ...configList[name][index],
-      [field === 'custom_label' ? 'alias' : field]: value,
+      [field]: field === 'custom_label' ? value.trim() : value,
     };
 
     if (field === 'label') {
@@ -93,9 +94,9 @@ export const MetricConfigPanelItem = ({ fieldOptionList, visualizations }: any) 
   };
 
   const handleServiceRemove = (index: number, name: string) => {
-    const arr = [...configList[name]];
-    arr.splice(index, 1);
-    const updatedList = { ...configList, [name]: arr };
+    const listItem = [...configList[name]];
+    listItem.splice(index, 1);
+    const updatedList = { ...configList, [name]: listItem };
     setConfigList(updatedList);
   };
 

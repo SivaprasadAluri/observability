@@ -7,34 +7,51 @@ import React from 'react';
 import { sum, min, max, meanBy } from 'lodash';
 import { EmptyPlaceholder } from '../../../event_analytics/explorer/visualizations/shared_components/empty_placeholder';
 import './metrics.scss';
+import { IVisualizationContainerProps } from '../../../../../common/types/explorer';
+import { AGGREGATIONS, GROUPBY } from '../../../../../common/constants/explorer';
 
 export const Metrics = ({ visualizations }: any) => {
   const {
-    data,
-    metadata: { fields },
-  } = visualizations.data.rawVizData;
+    data: {
+      rawVizData: {
+        data: queriedVizData,
+        metadata: { fields },
+      },
+      userConfigs,
+    },
+    vis: visMetaData,
+  }: IVisualizationContainerProps = visualizations;
 
-  const { dataConfig = {}, layoutConfig = {} } = visualizations.data.userConfigs;
-  const dataTitle = dataConfig?.panelOptions?.title;
+  const {
+    dataConfig: {
+      colorTheme = [],
+      fontSize = {},
+      panelOptions = {},
+      [GROUPBY]: dimensions = [],
+      [AGGREGATIONS]: series = [],
+    },
+    layoutConfig = {},
+  } = userConfigs;
 
+  const dataTitle = panelOptions?.title;
   const getSelectedColorTheme = (field: any, index: number) =>
-    (dataConfig?.colorTheme?.length > 0 &&
-      dataConfig.colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
+    (colorTheme?.length > 0 &&
+      colorTheme.find((colorSelected) => colorSelected.name.name === field)?.color) ||
     '#000';
-  const fontSize = dataConfig?.fontSize?.fontSize ? dataConfig.fontSize.fontSize : 48;
+  const metricFontSize = fontSize?.fontSize ? fontSize.fontSize : 48;
 
   const calculateAggregateValue = (aggregate: string, label: string) => {
     switch (aggregate) {
       case 'COUNT':
-        return data[label].length;
+        return queriedVizData[label].length;
       case 'AVERAGE':
-        return meanBy(data[label]).toFixed(2);
+        return meanBy(queriedVizData[label]).toFixed(2);
       case 'MAX':
-        return (max(data[label]) as number).toFixed(2);
+        return (max(queriedVizData[label]) as number).toFixed(2);
       case 'MIN':
-        return (min(data[label]) as number).toFixed(2);
+        return (min(queriedVizData[label]) as number).toFixed(2);
       case 'SUM':
-        return sum(data[label]).toFixed(2);
+        return sum(queriedVizData[label]).toFixed(2);
     }
   };
 
@@ -42,8 +59,8 @@ export const Metrics = ({ visualizations }: any) => {
     <div className="metricsContainer">
       <h4 className="metricTitle"> {dataTitle} </h4>
       <div>
-        {dataConfig && dataConfig?.series?.length > 0 ? (
-          dataConfig.series.map((metric, index: number) => {
+        {series && series?.length > 0 ? (
+          series.map((metric, index: number) => {
             return (
               <EuiFlexGroup
                 justifyContent="spaceAround"
@@ -55,12 +72,15 @@ export const Metrics = ({ visualizations }: any) => {
                 {metric.aggregation.length !== 0 &&
                   metric.aggregation.map((aggFunction, i: number) => (
                     <EuiFlexItem grow={false} className="metricValue" key={i}>
-                      <div className="aggregateValue" style={{ fontSize: fontSize + 'px' }}>
+                      <div className="aggregateValue" style={{ fontSize: metricFontSize + 'px' }}>
                         {calculateAggregateValue(aggFunction.label, metric.label)}
                       </div>
-                      <div className="aggregateLabel" style={{ fontSize: fontSize / 2 + 'px' }}>
+                      <div
+                        className="aggregateLabel"
+                        style={{ fontSize: metricFontSize / 2 + 'px' }}
+                      >
                         <span> {aggFunction.label} </span>
-                        {metric.alias !== '' ? metric.alias : metric.label}
+                        {metric.custom_label !== '' ? metric.custom_label : metric.label}
                       </div>
                     </EuiFlexItem>
                   ))}
