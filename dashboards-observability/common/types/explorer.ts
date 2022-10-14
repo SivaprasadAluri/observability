@@ -211,6 +211,7 @@ export interface IVisualizationContainerPropsData {
 }
 
 export interface IVisualizationContainerPropsVis {
+  name: any;
   vis: IVisualizationTypeDefination;
 }
 
@@ -358,4 +359,16 @@ export interface DataConfigPanelFieldProps {
   handleServiceAdd: (name: string) => void;
   handleServiceRemove: (index: number, name: string) => void;
   handleServiceEdit: (isClose: boolean, arrIndex: number, sectionName: string) => void;
+}
+
+export interface MetricListEntry {
+  label: string;
+  aggregation: string[];
+  [CUSTOM_LABEL]: string;
+  name: string;
+}
+
+export interface MetricList {
+  [AGGREGATIONS]?: MetricListEntry[];
+  [GROUPBY]: [];
 }
