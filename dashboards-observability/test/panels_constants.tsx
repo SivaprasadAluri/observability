@@ -8,6 +8,7 @@ export const panelBreadCrumbs = [
   { text: 'Observability', href: 'observability#/' },
 ];
 
+/* sampleSavedVisualization for fetchVisualizationById() from util, as visualization:{} is needed here*/
 export const sampleSavedVisualization = {
   visualization: {
     id: 'oiuccXwBYVazWqOO1e06',
@@ -17,6 +18,16 @@ export const sampleSavedVisualization = {
     type: 'bar',
     timeField: 'timestamp',
   },
+};
+
+/* sampleSavedVisualizationMetaData for displayVisualization() from util, as visualization:{} is not required in here*/
+export const sampleSavedVisualizationMetaData = {
+  id: 'oiuccXwBYVazWqOO1e06',
+  name: 'Flight Count by Origin',
+  query:
+    'source=opensearch_dashboards_sample_data_flights | fields Carrier,FlightDelayMin | stats sum(FlightDelayMin) as delays by Carrier',
+  type: 'bar',
+  timeField: 'timestamp',
 };
 
 export const samplePPLResponse = {

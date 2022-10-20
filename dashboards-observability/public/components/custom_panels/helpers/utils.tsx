@@ -297,7 +297,7 @@ export const displayVisualization = (metaData: any, data: any, type: string) => 
       visualizations={getVizContainerProps({
         vizId: type,
         rawVizData: data,
-        query: {},
+        query: { rawQuery: metaData.query === undefined ? {} : metaData.query },
         indexFields: {},
         userConfigs: metaData.user_configs,
         explorer: { explorerData: data, explorerFields: data.metadata.fields },
