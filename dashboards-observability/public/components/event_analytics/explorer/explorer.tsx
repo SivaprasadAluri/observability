@@ -135,6 +135,7 @@ export const Explorer = ({
     pplService,
     requestParams,
   });
+  // console.log('explorer - selectVisualizationConfig', selectVisualizationConfig);
   const appLogEvents = tabId.startsWith('application-analytics-tab');
   const query = useSelector(selectQueries)[tabId];
   const explorerData = useSelector(selectQueryResult)[tabId];
@@ -160,6 +161,7 @@ export const Explorer = ({
   const [browserTabFocus, setBrowserTabFocus] = useState(true);
   const [liveTimestamp, setLiveTimestamp] = useState(DATE_PICKER_FORMAT);
   const [triggerAvailability, setTriggerAvailability] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const queryRef = useRef();
   const appBasedRef = useRef('');
@@ -832,6 +834,7 @@ export const Explorer = ({
   }
 
   const visualizations: IVisualizationContainerProps = useMemo(() => {
+    console.log('Explorer on visualizations query', userVizConfigs, curVisId);
     return getVizContainerProps({
       vizId: curVisId,
       rawVizData: explorerVisualizations,
@@ -841,7 +844,7 @@ export const Explorer = ({
       appData: { fromApp: appLogEvents },
       explorer: { explorerData, explorerFields, query, http, pplService },
     });
-  }, [curVisId, explorerVisualizations, explorerFields, query, userVizConfigs]);
+  }, [curVisId, explorerVisualizations, explorerFields, query]);
 
   const callbackForConfig = (childFunc: () => void) => {
     if (childFunc && triggerAvailability) {
@@ -983,17 +986,32 @@ export const Explorer = ({
       : undefined;
   };
 
-  const getUpdatedDataConfig = (statsToken: statsChunk) => {
+  const getUpdatedDataConfig = (statsToken: statsChunk, isNotrefresh?: boolean) => {
+    // console.log(' On Refresh===========================================>', statsToken);
     if (statsToken === null) {
       return {
         [GROUPBY]: [],
         [AGGREGATIONS]: [],
       };
     }
-
     const groupByToken = statsToken.groupby;
     const seriesToken = statsToken.aggregations && statsToken.aggregations[0];
     const span = getSpanValue(groupByToken);
+    console.log('getUpdatedDataConfig - curVisId', curVisId);
+    const updatedConfigs = {
+      [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+        label: agg.function?.value_expression,
+        name: agg.function?.value_expression,
+        aggregation: agg.function?.name,
+        [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
+      })),
+      [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+        label: agg.name ?? '',
+        name: agg.name ?? '',
+        [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
+      })),
+      span,
+    };
     switch (curVisId) {
       case VIS_CHART_TYPES.TreeMap:
         return {
@@ -1028,6 +1046,14 @@ export const Explorer = ({
           [GROUPBY]: [{ bucketSize: '', bucketOffset: '' }],
           [AGGREGATIONS]: [],
         };
+      case VIS_CHART_TYPES.HeatMap:
+        // console.log('getUpdatedDataConfig updatedConfigs', updatedConfigs);
+        return updatedConfigs[GROUPBY].length !== 2 || updatedConfigs[AGGREGATIONS].length !== 1
+          ? {
+              [GROUPBY]: [],
+              [AGGREGATIONS]: [],
+            }
+          : updatedConfigs;
       case VIS_CHART_TYPES.LogsView: {
         const dimensions = statsToken.aggregations
           .map((agg) => {
@@ -1058,20 +1084,24 @@ export const Explorer = ({
       }
 
       default:
-        return {
-          [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
-            label: agg.function?.value_expression,
-            name: agg.function?.value_expression,
-            aggregation: agg.function?.name,
-            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
-          })),
-          [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
-            label: agg.name ?? '',
-            name: agg.name ?? '',
-            [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
-          })),
-          span,
-        };
+        return updatedConfigs;
+
+      // return VIS_CHART_TYPES.HeatMap !== curVisId
+      //   ? {
+      //       [AGGREGATIONS]: statsToken.aggregations.map((agg) => ({
+      //         label: agg.function?.value_expression,
+      //         name: agg.function?.value_expression,
+      //         aggregation: agg.function?.name,
+      //         [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof StatsAggregationChunk],
+      //       })),
+      //       [GROUPBY]: groupByToken?.group_fields?.map((agg) => ({
+      //         label: agg.name ?? '',
+      //         name: agg.name ?? '',
+      //         [CUSTOM_LABEL]: agg[CUSTOM_LABEL as keyof GroupField] ?? '',
+      //       })),
+      //       span,
+      //     }
+      //   : {};
     }
   };
 
@@ -1093,17 +1123,20 @@ export const Explorer = ({
       if (selectedContentTabId === TAB_CHART_ID) {
         // parse stats section on every search
         const statsTokens = queryManager.queryParser().parse(tempQuery).getStats();
-        const updatedDataConfig = getUpdatedDataConfig(statsTokens);
-        await dispatch(
+        console.log('handleQuerySearch - > statsTokens', statsTokens);
+        const updatedDataConfig = getUpdatedDataConfig(statsTokens, false);
+        const configDetais = await dispatch(
           changeVizConfig({
             tabId,
             vizId: curVisId,
-            data: { dataConfig: { ...updatedDataConfig } },
+            data: {
+              dataConfig: updatedDataConfig,
+            },
           })
         );
       }
     },
-    [tempQuery, query, selectedContentTabId]
+    [tempQuery, query, selectedContentTabId, curVisId]
   );
 
   const handleQueryChange = async (newQuery: string) => setTempQuery(newQuery);

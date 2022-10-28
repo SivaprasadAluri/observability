@@ -112,6 +112,8 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
   let tempUserConfigs = {};
   const qm = new QueryManager();
   const statsTokens = qm.queryParser().parse(queryString.rawQuery).getStats();
+  console.log('viz_Types defaultUserConfigs', statsTokens);
+
   if (!statsTokens) {
     tempUserConfigs = {
       [AGGREGATIONS]: [],
@@ -122,6 +124,18 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
       ...(statsTokens.groupby !== '' &&
         statsTokens.groupby?.span !== null &&
         getSpanValue(statsTokens)),
+    };
+    const commonTempConfigs = {
+      [AGGREGATIONS]: statsTokens.aggregations.map((agg) => ({
+        [CUSTOM_LABEL]: agg[CUSTOM_LABEL],
+        label: agg.function?.value_expression,
+        name: agg.function?.value_expression,
+        aggregation: agg.function?.name,
+      })),
+      [GROUPBY]: statsTokens.groupby?.group_fields?.map((agg) => ({
+        label: agg.name ?? '',
+        name: agg.name ?? '',
+      })),
     };
     if (visualizationName === VIS_CHART_TYPES.LogsView) {
       const dimensions = statsTokens.aggregations
@@ -152,27 +166,19 @@ const defaultUserConfigs = (queryString, visualizationName: string) => {
         [GROUPBY]: dimensions,
       };
     } else if (visualizationName === VIS_CHART_TYPES.HeatMap) {
-      tempUserConfigs = {
-        ...tempUserConfigs,
-        [GROUPBY]: [],
-        [AGGREGATIONS]: [],
-      };
+      console.log("commonTempConfigs-->", commonTempConfigs);
+      tempUserConfigs =
+        commonTempConfigs[AGGREGATIONS].length !== 1 || commonTempConfigs[GROUPBY].length !== 2
+          ? {
+              [GROUPBY]: [],
+              [AGGREGATIONS]: [],
+            }
+          : commonTempConfigs;
     } else {
-      tempUserConfigs = {
-        ...tempUserConfigs,
-        [AGGREGATIONS]: statsTokens.aggregations.map((agg) => ({
-          [CUSTOM_LABEL]: agg[CUSTOM_LABEL],
-          label: agg.function?.value_expression,
-          name: agg.function?.value_expression,
-          aggregation: agg.function?.name,
-        })),
-        [GROUPBY]: statsTokens.groupby?.group_fields?.map((agg) => ({
-          label: agg.name ?? '',
-          name: agg.name ?? '',
-        })),
-      };
+      tempUserConfigs = commonTempConfigs;
     }
   }
+  console.log('defaultUserConfigs - tempUserConfigs', tempUserConfigs);
   return tempUserConfigs;
 };
 
@@ -185,6 +191,7 @@ const getUserConfigs = (
   let configOfUser = userSelectedConfigs;
   const axesData = getDefaultXYAxisLabels(vizFields, visName);
   if (!(userSelectedConfigs.dataConfig?.GROUPBY || userSelectedConfigs.dataConfig?.AGGREGATIONS)) {
+    console.log('Check userSelectedConfigs is updated', userSelectedConfigs);
     switch (visName) {
       case VIS_CHART_TYPES.HeatMap:
         configOfUser = {
@@ -248,6 +255,7 @@ const getUserConfigs = (
         break;
     }
   }
+
   return isEmpty(configOfUser) ? userSelectedConfigs : configOfUser;
 };
 
@@ -267,6 +275,7 @@ export const getVizContainerProps = ({
   appData = {},
   explorer = { explorerData: { jsonData: [], jsonDataAll: [] } },
 }: IVizContainerProps): IVisualizationContainerProps => {
+  console.log('VizTypes On UpdateChart-------------->', userConfigs);
   const getVisTypeData = () =>
     SIMILAR_VIZ_TYPES.includes(vizId as VIS_CHART_TYPES)
       ? { ...getVisType(vizId, { type: vizId }) }

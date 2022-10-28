@@ -48,7 +48,7 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     vis: { icontype },
   }: IVisualizationContainerProps = visualizations;
 
-  if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
+  // if (fields.length < 3) return <EmptyPlaceholder icon={icontype} />;
 
   const xaxisField = dimensions[0];
   const yaxisField = dimensions[1];
@@ -63,8 +63,21 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
     isEmpty(queriedVizData[getPropName(zMetrics)]) ||
     dimensions.length > 2 ||
     series.length > 1
-  )
-    return <EmptyPlaceholder icon={icontype} />;
+  ) {
+    console.log(
+      "dimensions.length > 2 || series.length > 1 ? 'Invalid Configs' : undefined",
+      dimensions.length,
+      series.length
+    );
+    return (
+      <EmptyPlaceholder
+        icon={icontype}
+        updateErrorMessage={
+          dimensions.length !== 2 || series.length !== 1 ? 'Invalid Configs' : undefined
+        }
+      />
+    );
+  }
 
   const uniqueYaxis = uniq(queriedVizData[yaxisField.label]);
   const uniqueXaxis = uniq(queriedVizData[xaxisField.label]);
