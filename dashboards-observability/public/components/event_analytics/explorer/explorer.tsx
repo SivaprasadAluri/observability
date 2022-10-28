@@ -869,7 +869,11 @@ export const Explorer = ({
         dimensions.childField?.length !== 0 &&
         dimensions.valueField?.length !== 0,
       gauge: curVisId === Gauge && isSeriesNotEmpty(series),
-      heatmap: Boolean(curVisId === HeatMap && series.length === 1 && dimensions.length === 2),
+      heatmap: Boolean(
+        curVisId === HeatMap &&
+          series.length === 1 &&
+          dimensions.length === (span === undefined ? 1 : 2)
+      ),
       bar: isValidValueOptionsXYAxes,
       line: isValidValueOptionsXYAxes,
       histogram: isValidValueOptionsXYAxes,

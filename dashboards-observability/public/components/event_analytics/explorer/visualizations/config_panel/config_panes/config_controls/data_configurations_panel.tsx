@@ -236,6 +236,7 @@ export const DataConfigPanelItem = ({
           [RAW_QUERY]: newQuery,
         },
       };
+      handleQueryChange(newQuery);
       fetchDataUpdateChart(undefined, undefined, updatedQuery);
     }
   };
