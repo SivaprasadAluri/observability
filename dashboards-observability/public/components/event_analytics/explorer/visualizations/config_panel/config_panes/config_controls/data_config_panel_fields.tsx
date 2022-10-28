@@ -53,9 +53,20 @@ export const DataConfigPanelFields = ({
     if (!isArray(list) || !HIDE_ADD_BUTTON_VIZ_TYPES.includes(visType)) return false;
     // condition for heatmap on the basis of section name
     if (visType === VIS_CHART_TYPES.HeatMap)
-      return name === AGGREGATIONS ? list.length >= 1 : list.length >= 2;
+      return name === AGGREGATIONS
+        ? list.length >= 1
+        : isEmpty(time_field)
+        ? list.length >= 2
+        : list.length >= 1;
     // condition for line and scatter for dimensions section.
     return name === GROUPBY && (list.length >= 1 || !isEmpty(time_field));
+  };
+
+  const toolTipTextGenerator = (isAgg: boolean) => {
+    if (isAgg) {
+      return visType === VIS_CHART_TYPES.HeatMap ? 'only one Series is allowed' : AGGREGATION_INFO;
+    }
+    return visType === VIS_CHART_TYPES.HeatMap ? 'only two dimensions are allowed' : DIMENSION_INFO;
   };
 
   const { time_field, unit, interval } = dimensionSpan;
@@ -90,7 +101,7 @@ export const DataConfigPanelFields = ({
         </EuiTitle>
 
         {sectionName !== BREAKDOWNS &&
-          infoToolTip(tooltipIcon, isAggregation ? AGGREGATION_INFO : DIMENSION_INFO)}
+          infoToolTip(tooltipIcon, toolTipTextGenerator(isAggregation))}
       </div>
       <EuiSpacer size="s" />
       {sectionName === GROUPBY && dimensionSpan && !isEmpty(time_field) && (
@@ -122,7 +133,7 @@ export const DataConfigPanelFields = ({
                 </EuiLink>
               </EuiText>
               {isAggregation
-                ? infoToolTip(crossIcon(index, sectionName), AGGREGATION_INFO)
+                ? infoToolTip(crossIcon(index, sectionName), toolTipTextGenerator(true))
                 : crossIcon(index, sectionName)}
             </EuiPanel>
             <EuiSpacer size="s" />
