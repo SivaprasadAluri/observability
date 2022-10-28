@@ -76,7 +76,9 @@ export const HeatMap = ({ visualizations, layout, config }: any) => {
       <EmptyPlaceholder
         icon={icontype}
         updatedMessage={
-          dimensions.length !== 0 || series.length !== 0 ? 'Invalid Configs' : undefined
+          dimensions.length !== 0 || series.length !== 0
+            ? 'Invalid query selected to render heatmap'
+            : undefined
         }
       />
     );
