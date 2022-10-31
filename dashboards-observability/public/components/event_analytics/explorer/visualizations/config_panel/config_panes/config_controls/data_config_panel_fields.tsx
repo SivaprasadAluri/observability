@@ -46,6 +46,7 @@ export const DataConfigPanelFields = ({
   handleServiceEdit,
 }: DataConfigPanelFieldProps) => {
   const isAggregation = sectionName === AGGREGATIONS;
+  const { time_field, unit, interval } = dimensionSpan;
 
   // The function hides the click to add button for visualizations included in the const HIDE_ADD_BUTTON_VIZ_TYPES
   const hideClickToAddButton = (name: string) => {
@@ -66,10 +67,8 @@ export const DataConfigPanelFields = ({
     if (isAgg) {
       return visType === VIS_CHART_TYPES.HeatMap ? 'only one Series is allowed' : AGGREGATION_INFO;
     }
-    return visType === VIS_CHART_TYPES.HeatMap ? 'only two dimensions are allowed' : DIMENSION_INFO;
+    return visType === VIS_CHART_TYPES.HeatMap ? 'only two Dimensions are allowed' : DIMENSION_INFO;
   };
-
-  const { time_field, unit, interval } = dimensionSpan;
 
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;
   const crossIcon = (index: number, configName: string) => (

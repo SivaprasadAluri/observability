@@ -8,7 +8,7 @@ import { EuiIcon, EuiText, EuiSpacer } from '@elastic/eui';
 import { FormattedMessage } from '@osd/i18n/react';
 import './empty_placeholder.scss';
 
-export const EmptyPlaceholder = (props: { icon: string; updatedMessage?: string }) => (
+export const EmptyPlaceholder = (props: { icon: string; customMessage?: string }) => (
   <>
     <EuiText
       className="lnsChart__empty"
@@ -23,7 +23,7 @@ export const EmptyPlaceholder = (props: { icon: string; updatedMessage?: string 
         <FormattedMessage
           id="visualization_noData"
           defaultMessage={
-            props.updatedMessage === undefined ? 'No results found' : props.updatedMessage
+            props.customMessage === undefined ? 'No results found' : props.customMessage
           }
         />
       </p>
