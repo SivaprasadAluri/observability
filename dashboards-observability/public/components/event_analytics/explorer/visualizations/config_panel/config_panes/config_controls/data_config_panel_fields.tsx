@@ -18,6 +18,8 @@ import {
   AGGREGATIONS,
   AGGREGATION_INFO,
   BREAKDOWNS,
+  CUSTOM_HEATMAP_DIMENSION_INFO,
+  CUSTOM_HEATMAP_SERIES_INFO,
   CUSTOM_LABEL,
   DIMENSION_INFO,
   GROUPBY,
@@ -65,9 +67,9 @@ export const DataConfigPanelFields = ({
 
   const toolTipTextGenerator = (isAgg: boolean) => {
     if (isAgg) {
-      return visType === VIS_CHART_TYPES.HeatMap ? 'only one Series is allowed' : AGGREGATION_INFO;
+      return visType === VIS_CHART_TYPES.HeatMap ? CUSTOM_HEATMAP_SERIES_INFO : AGGREGATION_INFO;
     }
-    return visType === VIS_CHART_TYPES.HeatMap ? 'only two Dimensions are allowed' : DIMENSION_INFO;
+    return visType === VIS_CHART_TYPES.HeatMap ? CUSTOM_HEATMAP_DIMENSION_INFO : DIMENSION_INFO;
   };
 
   const tooltipIcon = <EuiIcon type="iInCircle" color="text" size="m" className="info-icon" />;

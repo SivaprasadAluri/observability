@@ -231,7 +231,6 @@ const getUserConfigs = (
         break;
     }
   }
-  console.log("getUserConfigs - userSelectedConfigs--->", userSelectedConfigs);
   return isEmpty(configOfUser) ? userSelectedConfigs : configOfUser;
 };
 
