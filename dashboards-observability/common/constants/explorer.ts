@@ -274,3 +274,5 @@ export const AGGREGATION_INFO = 'At least one metric is required to render a cha
 export const DIMENSION_INFO = 'The timestamp type field can be selected as a first dimension only';
 export const TIME_FIELD = 'time_field';
 export const DISABLED_COLOUR = "#fafbfd";
+export const CUSTOM_HEATMAP_SERIES_INFO = 'only one Series is allowed';
+export const CUSTOM_HEATMAP_DIMENSION_INFO = 'only two Dimensions are allowed';
