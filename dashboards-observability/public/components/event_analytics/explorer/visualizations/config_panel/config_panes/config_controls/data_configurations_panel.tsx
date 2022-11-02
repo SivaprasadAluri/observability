@@ -87,23 +87,9 @@ export const DataConfigPanelItem = ({
   const { userConfigs } = data;
 
   useEffect(() => {
-    if (userConfigs && userConfigs.dataConfig) {
-      const filteredConfigs =
-        visualizations.vis.name === VIS_CHART_TYPES.HeatMap &&
-        ((isEmpty(userConfigs.dataConfig?.time_field) &&
-          userConfigs.dataConfig[GROUPBY]?.length !== 2) ||
-          (!isEmpty(userConfigs.dataConfig[SPAN]?.time_field) &&
-            userConfigs.dataConfig[GROUPBY]?.length !== 1) ||
-          userConfigs.dataConfig[AGGREGATIONS]?.length !== 1);
-      setConfigList(
-        !filteredConfigs
-          ? {
-              ...userConfigs.dataConfig,
-            }
-          : {}
-      );
-      setIsAddConfigClicked(false);
-    }
+    setConfigList({
+      ...userConfigs.dataConfig,
+    });
   }, [userConfigs?.dataConfig, visualizations.vis.name]);
 
   const updateList = (value: string, field: string) => {
